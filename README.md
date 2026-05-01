@@ -1,5 +1,7 @@
 # ThrftCity
 
+**🌍 Live Demo:** [https://thrftcity.netlify.app](https://thrftcity.netlify.app)
+
 ThrftCity is a modern, responsive e-commerce web application dedicated to thrift shopping. Built with React and Vite, this platform provides a seamless shopping experience allowing users to browse products, manage their cart, and securely place orders.
 
 ## Features
