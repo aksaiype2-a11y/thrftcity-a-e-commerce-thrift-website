@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Collection | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Paste Header here (simulated using JS injection for simpler file structure or just copying) -->
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+            <nav class="nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn">Men </button>
+                    <div class="dropdown-content">
+                        <a href="men.html">All Men</a>
+                        <a href="category.html?gender=men&type=clothes">Clothes</a>
+                        <a href="category.html?gender=men&type=shoes">Shoes</a>
+                        <a href="category.html?gender=men&type=accessories">Accessories</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Women </button>
+                    <div class="dropdown-content">
+                        <a href="women.html">All Women</a>
+                        <a href="category.html?gender=women&type=clothes">Clothes</a>
+                        <a href="category.html?gender=women&type=shoes">Shoes</a>
+                        <a href="category.html?gender=women&type=accessories">Accessories</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input" placeholder="Search..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="login.html" id="auth-btn" class="auth-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container page-header">
+        <h1 class="section-title">Men's Collection</h1>
+        <p style="color: #aaa; margin-bottom: 2rem;">Explore our curated selection of men's streetwear and vintage
+            pieces.</p>
+
+        <div id="men-products-grid" class="products-grid">
+            <!-- Injected via JS -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menProducts = window.thrftData.getProductsByGender('men');
+            const grid = document.getElementById('men-products-grid');
+
+            if (menProducts.length > 0) {
+                let html = '';
+                menProducts.forEach(p => {
+                    html += createProductCardHTML(p);
+                });
+                grid.innerHTML = html;
+            } else {
+                grid.innerHTML = '<div class="empty-state"><h3>No products found</h3></div>';
+            }
+        });
+    </script>
+</body>
+
+</html>

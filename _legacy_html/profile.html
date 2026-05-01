@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .profile-sidebar {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            height: fit-content;
+        }
+
+        .profile-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .profile-menu a {
+            padding: 10px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-menu a:hover,
+        .profile-menu a.active {
+            background: var(--surface-light);
+            color: var(--accent-color);
+        }
+
+        .profile-content {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+        }
+
+        @media (max-width: 768px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+            <nav class="nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn">Men </button>
+                    <div class="dropdown-content">
+                        <a href="men.html">All Men</a>
+                        <a href="category.html?gender=men&type=clothes">Clothes</a>
+                        <a href="category.html?gender=men&type=shoes">Shoes</a>
+                        <a href="category.html?gender=men&type=accessories">Accessories</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Women </button>
+                    <div class="dropdown-content">
+                        <a href="women.html">All Women</a>
+                        <a href="category.html?gender=women&type=clothes">Clothes</a>
+                        <a href="category.html?gender=women&type=shoes">Shoes</a>
+                        <a href="category.html?gender=women&type=accessories">Accessories</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input" placeholder="Search..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="profile.html" id="auth-btn" class="auth-btn"
+                    style="background:var(--accent-color); color:#000;">Profile</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container page-header">
+        <h1 class="section-title" style="text-align: left;">My Account</h1>
+
+        <div class="profile-layout">
+            <aside class="profile-sidebar fade-in">
+                <div style="text-align: center;">
+                    <div style="width:80px; height:80px; border-radius:50%; background:var(--accent-color); color:#000; font-size:2.5rem; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-weight:bold;"
+                        id="avatar-initial">T</div>
+                    <h3 id="profile-name">User Name</h3>
+                    <p style="color:#aaa; font-size:0.9rem;" id="profile-email">user@example.com</p>
+                </div>
+                <div class="profile-menu">
+                    <a href="profile.html" class="active"><i class="fas fa-user"></i> Personal Info</a>
+                    <a href="orders.html"><i class="fas fa-box"></i> Order History</a>
+                    <a href="wishlist.html"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="#" onclick="logoutUser()" style="color:#ff4d4d; margin-top:1rem;"><i
+                            class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </aside>
+
+            <div class="profile-content fade-in" style="animation-delay: 0.2s">
+                <h2 style="margin-bottom: 2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                    Personal Information</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="input-name" class="form-control" value="">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email / Phone</label>
+                        <input type="text" id="input-email" class="form-control" disabled value="">
+                    </div>
+                </div>
+
+                <h2 style="margin: 2rem 0; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">Shipping
+                    Address</h2>
+                <div class="form-group">
+                    <label class="form-label">Street Address</label>
+                    <input type="text" class="form-control" placeholder="123 Main St">
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label class="form-label">City</label>
+                        <input type="text" class="form-control" placeholder="Mumbai">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pincode</label>
+                        <input type="text" class="form-control" placeholder="400001">
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="showToast('Profile updated successfully!')"
+                    style="margin-top: 1rem;">Save Changes</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = getUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.getElementById('profile-name').textContent = user.name;
+            document.getElementById('profile-email').textContent = user.phoneOrEmail;
+            document.getElementById('avatar-initial').textContent = user.name.charAt(0).toUpperCase();
+
+            document.getElementById('input-name').value = user.name;
+            document.getElementById('input-email').value = user.phoneOrEmail;
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThrftCity | Modern Thrift Fashion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header (Shared) -->
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+
+            <nav class="nav-links category-tabs"
+                style="margin: 0; padding: 4px; border-radius: 40px; background: rgba(26,26,26,0.8); backdrop-filter: blur(4px);">
+                <a href="shop.html?category=men" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Men</a>
+                <a href="shop.html?category=women" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Women</a>
+                <a href="shop.html?category=accessories" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Accessories</a>
+                <a href="shop.html?category=shoes" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Shoes</a>
+            </nav>
+
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input"
+                    placeholder="Search clothes, shoes, accessories..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="login.html" id="auth-btn" class="auth-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero fade-in">
+            <img src="https://images.unsplash.com/photo-1550614000-4b95d4ed66eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                alt="Thrft Fashion" class="hero-bg">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content"
+                style="text-align: center; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+                <h1 class="hero-title">Own Your <span>Aesthetic.</span></h1>
+                <p class="hero-desc">Curated vintage and modern thrift pieces. High fashion, low impact.</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <!-- Removed Shop Men / Shop Women buttons per user request -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Mission Section -->
+        <section class="container" style="padding: 4rem 20px; text-align: center; max-width: 900px; margin: 0 auto;">
+            <p style="font-size: 1.2rem; color: #ccc; line-height: 1.6;">
+                ThrftCity is your ultimate destination for curated vintage and modern second-hand<br>
+                fashion. We specialize in sourcing the best high-quality streetwear, classic pieces,<br>
+                and sustainable fashion choices so you can own your aesthetic without the<br>
+                environmental guilt. Whether you are hunting for rare sneakers or the perfect retro<br>
+                jacket, we've got you covered.
+            </p>
+        </section>
+
+        <!-- New Collection / Arrivals Section -->
+        <section class="container" style="padding: 2rem 20px 4rem;">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 2rem;">New Collection</h2>
+            <div id="new-collection-grid" class="products-grid-4col">
+                <!-- Products injected via JS -->
+            </div>
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="shop.html" class="btn-secondary">Shop the Collection</a>
+            </div>
+        </section>
+
+        <!-- Customer Reviews Section -->
+        <section class="container" style="padding: 2rem 20px 6rem;">
+            <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;">What People Are Saying</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <!-- Review 1 -->
+                <div
+                    style="background: var(--surface-light); padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 5px; color: var(--accent-color); margin-bottom: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem;">"The best thrift site hands
+                        down. I found a vintage Nike windbreaker in perfect condition. Fast shipping too!"</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="width: 40px; height: 40px; border-radius: 50%; background: #444; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">
+                            A</div>
+                        <span style="font-weight: 600;">Alex M.</span>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div
+                    style="background: var(--surface-light); padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 5px; color: var(--accent-color); margin-bottom: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem;">"ThrftCity completely
+                        changed how I build my wardrobe. Their curated selection of accessories is incredible."</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="width: 40px; height: 40px; border-radius: 50%; background: #444; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">
+                            S</div>
+                        <span style="font-weight: 600;">Sarah K.</span>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div
+                    style="background: var(--surface-light); padding: 2rem; border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+                    <div style="display: flex; gap: 5px; color: var(--accent-color); margin-bottom: 1rem;">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p style="font-size: 1.1rem; font-style: italic; margin-bottom: 1.5rem;">"Love the minimalist
+                        aesthetic and the focus on sustainability. The sneaker collection is straight fire."</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div
+                            style="width: 40px; height: 40px; border-radius: 50%; background: #444; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;">
+                            J</div>
+                        <span style="font-weight: 600;">Jordan T.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content sections removed per user request -->
+
+    </main>
+
+    <!-- Footer (Shared) -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo"
+                    style="margin-bottom: 1rem; display: block;">Thrft<span>City</span></a>
+                <p style="color:#aaa; font-size:0.9rem;">The premier destination for modern curated thrift fashion.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+            <div class="footer-col" style="margin-left:auto;">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="men.html">Men</a></li>
+                    <li><a href="women.html">Women</a></li>
+                    <li><a href="category.html?type=clothes">Clothes</a></li>
+                    <li><a href="category.html?type=shoes">Shoes</a></li>
+                    <li><a href="category.html?type=accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help & Info</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
+                    <li><a href="returns.html">Returns Policy</a></li>
+                    <li><a href="shipping.html">Shipping Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved. Built for Gen-Z.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Load New Collection (Home Page ONLY) ---
+            const gridContainer = document.getElementById('new-collection-grid');
+            if (gridContainer && window.thrftData && window.thrftData.products) {
+                // Get 4 random products or the newest ones
+                const allProducts = window.thrftData.products;
+                const newCollection = allProducts.slice(0, 4); // Just take the first 4 for the home page teaser
+
+                let gridHtml = '';
+                newCollection.forEach(p => {
+                    gridHtml += `
+                        <div class="grid-item">
+                            ${window.createProductCardHTML ? window.createProductCardHTML(p) : '<!-- Product Card (Requires script.js) -->'}
+                        </div>
+                    `;
+                });
+                gridContainer.innerHTML = gridHtml;
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Info | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Header (Shared) -->
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+
+            <nav class="nav-links category-tabs"
+                style="margin: 0; padding: 4px; border-radius: 40px; background: rgba(26,26,26,0.8); backdrop-filter: blur(4px);">
+                <a href="shop.html?category=men" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Men</a>
+                <a href="shop.html?category=women" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Women</a>
+                <a href="shop.html?category=accessories" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Accessories</a>
+                <a href="shop.html?category=shoes" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Shoes</a>
+            </nav>
+
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input"
+                    placeholder="Search clothes, shoes, accessories..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="login.html" id="auth-btn" class="auth-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding-top: 100px;">
+        <section class="container" style="padding: 4rem 20px; max-width: 800px; margin: 0 auto;">
+            <h1 class="section-title" style="text-align: center; margin-bottom: 2rem;">Shipping Information</h1>
+            
+            <div style="font-size: 1.1rem; color: #ccc; line-height: 1.8;">
+                <p style="margin-bottom: 1.5rem;">
+                    We know you're excited to get your hands on your new pieces. We ship all orders within 24-48 hours of purchase.
+                </p>
+                
+                <h2 style="color: #fff; margin: 2rem 0 1rem;">Shipping Rates</h2>
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 2rem; background: var(--surface-light); border-radius: 8px; overflow: hidden;">
+                    <thead style="background: #222;">
+                        <tr>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #444;">Region</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #444;">Standard Shipping</th>
+                            <th style="padding: 1rem; text-align: left; border-bottom: 1px solid #444;">Express Shipping</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">USA</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">$5.99 (3-5 days)</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">$14.99 (1-2 days)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">Canada</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">$12.99 (5-10 days)</td>
+                            <td style="padding: 1rem; border-bottom: 1px solid #333;">$24.99 (2-4 days)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">International</td>
+                            <td style="padding: 1rem;">$19.99 (10-20 days)</td>
+                            <td style="padding: 1rem;">$39.99 (3-7 days)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h2 style="color: #fff; margin: 2rem 0 1rem;">Tracking Your Order</h2>
+                <p style="margin-bottom: 1.5rem;">
+                    Once your order ships, you'll receive an email with a tracking number and a link to follow your package. You can also view your order status in your <a href="orders.html" style="color: var(--accent-color);">Account History</a>.
+                </p>
+                
+                <h2 style="color: #fff; margin: 2rem 0 1rem;">Eco-Friendly Packaging</h2>
+                <p>
+                    We use 100% compostable mailers and recycled materials for all our shipments. Because caring for the planet shouldn't stop at the checkout.
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Shared) -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo"
+                    style="margin-bottom: 1rem; display: block;">Thrft<span>City</span></a>
+                <p style="color:#aaa; font-size:0.9rem;">The premier destination for modern curated thrift fashion.</p>
+                <div class="newsletter-form">
+                    <input type="email" placeholder="Enter your email">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+            <div class="footer-col" style="margin-left:auto;">
+                <h4>Shop</h4>
+                <ul>
+                    <li><a href="men.html">Men</a></li>
+                    <li><a href="women.html">Women</a></li>
+                    <li><a href="category.html?type=clothes">Clothes</a></li>
+                    <li><a href="category.html?type=shoes">Shoes</a></li>
+                    <li><a href="category.html?type=accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Help & Info</h4>
+                <ul>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact Support</a></li>
+                    <li><a href="returns.html">Returns Policy</a></li>
+                    <li><a href="shipping.html">Shipping Info</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved. Built for Gen-Z.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

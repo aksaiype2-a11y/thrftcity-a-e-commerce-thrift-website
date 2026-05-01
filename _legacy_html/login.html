@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 4rem auto;
+            background: var(--surface-color);
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .auth-container h2 {
+            margin-bottom: 2rem;
+        }
+
+        .google-btn {
+            background: white;
+            color: #333;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            transition: var(--transition);
+        }
+
+        .google-btn:hover {
+            background: #eee;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: #888;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: .25em;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: .25em;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+            <!-- Simplified header for login page -->
+            <div style="flex:1"></div>
+            <div class="nav-icons">
+                <a href="index.html" class="nav-icon" title="Home"><i class="fas fa-home"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="auth-container fade-in">
+            <h2>Welcome Back</h2>
+
+            <!-- Step 1: Phone / Email -->
+            <div id="step-1">
+                <button class="google-btn" onclick="simulateGoogleLogin()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                        width="18">
+                    Continue with Google
+                </button>
+
+                <div class="divider">OR</div>
+
+                <div class="form-group" style="text-align: left;">
+                    <label class="form-label">Phone Number or Email</label>
+                    <input type="text" id="login-input" class="form-control" placeholder="Enter phone or email">
+                </div>
+                <button id="send-otp-btn" class="btn-primary" style="width: 100%;">Get OTP</button>
+            </div>
+
+            <!-- Step 2: OTP (Hidden initially) -->
+            <div id="step-2" style="display: none;">
+                <p style="margin-bottom: 1rem; color: #aaa;">Enter the OTP sent to <span id="sent-target"
+                        style="color:var(--text-color); font-weight:bold;"></span></p>
+                <div class="form-group">
+                    <input type="text" id="otp-input" class="form-control" placeholder="123456"
+                        style="text-align:center; font-size:1.5rem; letter-spacing:5px;" maxlength="6">
+                </div>
+                <button id="verify-otp-btn" class="btn-primary" style="width: 100%;">Verify & Login</button>
+                <button id="back-btn" class="btn-secondary" style="width: 100%; margin-top: 10px;">Back</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already logged in
+            if (getUser()) {
+                window.location.href = 'profile.html';
+            }
+
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const targetSpan = document.getElementById('sent-target');
+            let currentUserTarget = '';
+
+            document.getElementById('send-otp-btn').addEventListener('click', () => {
+                const target = document.getElementById('login-input').value.trim();
+                if (!target) {
+                    showToast('Please enter a valid phone or email');
+                    return;
+                }
+                currentUserTarget = target;
+                targetSpan.textContent = target;
+
+                showToast('OTP sent! (Use 123456 for demo)');
+                step1.style.display = 'none';
+                step2.style.display = 'block';
+            });
+
+            document.getElementById('verify-otp-btn').addEventListener('click', () => {
+                const otp = document.getElementById('otp-input').value.trim();
+                if (otp === '123456') {
+                    loginUser(currentUserTarget, 'Thrft User');
+                } else {
+                    showToast('Invalid OTP. Use 123456');
+                }
+            });
+
+            document.getElementById('back-btn').addEventListener('click', () => {
+                step2.style.display = 'none';
+                step1.style.display = 'block';
+            });
+
+            window.simulateGoogleLogin = function () {
+                showToast('Google login successful!');
+                loginUser('google_user@gmail.com', 'Google User');
+            };
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders & Checkout | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .order-card {
+            background: var(--surface-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .order-status {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .order-item-mini {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .order-item-mini img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        /* Checkout Forms */
+        .checkout-section {
+            background: var(--surface-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+            <nav class="nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn">Men </button>
+                    <div class="dropdown-content">
+                        <a href="men.html">All Men</a>
+                        <a href="category.html?gender=men&type=clothes">Clothes</a>
+                        <a href="category.html?gender=men&type=shoes">Shoes</a>
+                        <a href="category.html?gender=men&type=accessories">Accessories</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Women </button>
+                    <div class="dropdown-content">
+                        <a href="women.html">All Women</a>
+                        <a href="category.html?gender=women&type=clothes">Clothes</a>
+                        <a href="category.html?gender=women&type=shoes">Shoes</a>
+                        <a href="category.html?gender=women&type=accessories">Accessories</a>
+                    </div>
+                </div>
+            </nav>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input" placeholder="Search..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="login.html" id="auth-btn" class="auth-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container page-header">
+        <h1 id="page-title" class="section-title" style="text-align: left;">Order History</h1>
+
+        <div id="dynamic-content">
+            <!-- Rendered by JS based on URL params (checkout vs history) -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isCheckout = urlParams.get('checkout') === 'true';
+            const contentArea = document.getElementById('dynamic-content');
+            const pageTitle = document.getElementById('page-title');
+
+            const user = getUser();
+            if (!user && !isCheckout) {
+                // If trying to access history without login
+                window.location.href = 'login.html';
+                return;
+            }
+
+            if (isCheckout) {
+                pageTitle.textContent = 'Secure Checkout';
+                renderCheckout();
+            } else {
+                renderOrderHistory();
+            }
+
+            function renderCheckout() {
+                const cart = getCart();
+                if (cart.length === 0) {
+                    window.location.href = 'cart.html';
+                    return;
+                }
+
+                let subtotal = getCartTotal();
+                let shipping = subtotal > 2000 ? 0 : 150;
+                let total = subtotal + shipping;
+
+                let itemsHtml = '';
+                cart.forEach(item => {
+                    const p = window.thrftData.getProductById(item.id);
+                    if (p) {
+                        itemsHtml += `
+                            <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.9rem;">
+                                <span>${item.quantity}x ${p.name} (${item.size})</span>
+                                <span>₹${p.price * item.quantity}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                contentArea.innerHTML = `
+                    <div class="checkout-layout fade-in">
+                        <div>
+                            <!-- Shipping Address -->
+                            <div class="checkout-section">
+                                <h2 style="margin-bottom:1.5rem;">Shipping Address</h2>
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" id="chk-name" class="form-control" value="${user ? user.name : ''}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" id="chk-address" class="form-control" placeholder="House No, Street name">
+                                </div>
+                                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                                    <div class="form-group"><input type="text" id="chk-city" class="form-control" placeholder="City"></div>
+                                    <div class="form-group"><input type="text" id="chk-pin" class="form-control" placeholder="Pincode"></div>
+                                </div>
+                            </div>
+
+                            <!-- Payment Method (Simulation) -->
+                            <div class="checkout-section">
+                                <h2 style="margin-bottom:1.5rem;">Payment Method</h2>
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+                                    <label style="display:flex; align-items:center; gap:10px; padding:15px; border:1px solid var(--accent-color); border-radius:8px; background:var(--surface-light); cursor:pointer;">
+                                        <input type="radio" name="payment" checked value="cod" style="accent-color:var(--accent-color);">
+                                        Cash on Delivery (COD)
+                                    </label>
+                                    <label style="display:flex; align-items:center; gap:10px; padding:15px; border:1px solid var(--border-color); border-radius:8px; cursor:not-allowed; opacity:0.6;">
+                                        <input type="radio" name="payment" disabled value="card">
+                                        Card / UPI (Disabled for Demo)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Summary -->
+                        <div>
+                            <div class="checkout-section" style="position:sticky; top:100px;">
+                                <h2 style="margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:10px;">Order Summary</h2>
+                                
+                                <div style="margin-bottom:2rem;">
+                                    ${itemsHtml}
+                                </div>
+
+                                <div style="border-top:1px solid var(--border-color); padding-top:10px; margin-bottom:10px; display:flex; justify-content:space-between;">
+                                    <span>Subtotal</span><span>₹${subtotal}</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
+                                    <span>Shipping</span><span>${shipping === 0 ? 'Free' : '₹' + shipping}</span>
+                                </div>
+                                <div style="border-top:1px solid var(--border-color); padding-top:15px; display:flex; justify-content:space-between; font-size:1.5rem; font-weight:bold;">
+                                    <span>Total</span><span style="color:var(--accent-color);">₹${total}</span>
+                                </div>
+
+                                <button id="place-order-btn" class="btn-primary" style="width:100%; margin-top:20px; padding:15px;">
+                                    Place Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                document.getElementById('place-order-btn').addEventListener('click', () => {
+                    const address = document.getElementById('chk-address').value;
+                    const city = document.getElementById('chk-city').value;
+                    const pin = document.getElementById('chk-pin').value;
+
+                    if (!address || !city || !pin) {
+                        showToast('Please fill all address fields');
+                        return;
+                    }
+
+                    const orderId = placeOrder({ address, city, pin, payment: 'COD' });
+                    if (orderId) {
+                        contentArea.innerHTML = `
+                            <div class="checkout-section text-center fade-in" style="max-width:600px; margin:0 auto; text-align:center;">
+                                <i class="fas fa-check-circle" style="font-size:4rem; color:var(--accent-color); margin-bottom:1rem;"></i>
+                                <h2 style="margin-bottom:1rem;">Order Placed Successfully!</h2>
+                                <p style="color:#aaa; margin-bottom:2rem;">Your order ID is <strong style="color:white;">${orderId}</strong>.</p>
+                                <a href="orders.html" class="btn-primary">View Orders</a>
+                                <a href="index.html" class="btn-secondary" style="margin-left:10px;">Continue Shopping</a>
+                            </div>
+                        `;
+                        // Remove checkout param from URL cleanly
+                        window.history.replaceState({}, document.title, "orders.html");
+                        pageTitle.textContent = "Order Placed";
+                    }
+                });
+            }
+
+            function renderOrderHistory() {
+                const orders = getOrders();
+
+                if (orders.length === 0) {
+                    contentArea.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-box-open"></i>
+                            <h3>No Orders Yet</h3>
+                            <p style="margin-bottom:2rem;">Looks like you haven't made any purchases.</p>
+                            <a href="index.html" class="btn-primary">Start Shopping</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Sort newest first
+                orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                let html = '<div class="fade-in">';
+                orders.forEach(order => {
+                    const date = new Date(order.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+
+                    let itemsHtml = '';
+                    order.items.forEach(item => {
+                        const p = window.thrftData.getProductById(item.id);
+                        if (p) {
+                            itemsHtml += `
+                                <div class="order-item-mini">
+                                    <img src="${p.image}" alt="${p.name}">
+                                    <div>
+                                        <div style="font-weight:bold;">${p.name}</div>
+                                        <div style="font-size:0.8rem; color:#aaa;">Qty: ${item.quantity} | Size: ${item.size}</div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    });
+
+                    html += `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div style="font-weight:bold; margin-bottom:5px;">Order #${order.orderId}</div>
+                                    <div style="font-size:0.8rem; color:#aaa;">Placed on ${date}</div>
+                                </div>
+                                <div style="text-align:right;">
+                                    <div class="order-status"><i class="fas fa-truck"></i> ${order.status}</div>
+                                    <div style="font-weight:bold; margin-top:5px;">Total: ₹${order.total}</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; flex-wrap:wrap; gap:15px; margin-top:15px;">
+                                ${itemsHtml}
+                            </div>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+
+                contentArea.innerHTML = html;
+            }
+        });
+    </script>
+</body>
+
+</html>

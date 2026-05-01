@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | ThrftCity</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .main-img-wrap {
+            position: relative;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .main-img {
+            width: 100%;
+            object-fit: cover;
+            aspect-ratio: 4/5;
+            transition: transform 0.5s ease;
+        }
+
+        .main-img-wrap:hover .main-img {
+            transform: scale(1.05);
+            /* Zoom effect requested */
+        }
+
+        .detail-badge-top {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--accent-color);
+            color: #000;
+            padding: 6px 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            z-index: 2;
+        }
+
+        .info-pill-container {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-pill {
+            background: var(--surface-light);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .info-pill span {
+            color: #aaa;
+            font-weight: 400;
+            margin-right: 5px;
+        }
+
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-container">
+            <button class="mobile-menu-btn"><i class="fas fa-bars"></i></button>
+            <a href="index.html" class="logo">Thrft<span>City</span></a>
+            <nav class="nav-links category-tabs"
+                style="margin: 0; padding: 4px; border-radius: 40px; background: rgba(26,26,26,0.8); backdrop-filter: blur(4px);">
+                <a href="shop.html?category=men" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Men</a>
+                <a href="shop.html?category=women" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Women</a>
+                <a href="shop.html?category=accessories" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Accessories</a>
+                <a href="shop.html?category=shoes" class="tab-btn"
+                    style="text-decoration: none; padding: 8px 24px; font-size: 1rem; display: inline-block;">Shoes</a>
+            </nav>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="global-search" class="search-input" placeholder="Search..." autocomplete="off">
+                <div id="search-results" class="search-results-dropdown"></div>
+            </div>
+            <div class="nav-icons">
+                <a href="wishlist.html" class="nav-icon" title="Wishlist">
+                    <i class="far fa-heart"></i>
+                    <span id="wishlist-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="cart.html" class="nav-icon" title="Cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="badge" style="display:none">0</span>
+                </a>
+                <a href="login.html" id="auth-btn" class="auth-btn">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 2rem 20px; min-height: 80vh;">
+        <div id="product-content">
+            <!-- Loading or error will appear here -->
+        </div>
+
+        <div style="margin-top: 6rem; border-top: 1px solid var(--border-color); padding-top: 3rem;">
+            <h2 class="section-title">Similar Items</h2>
+            <div id="similar-products" class="products-grid"></div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            &copy; 2026 ThrftCity. All rights reserved. Built for Gen-Z.
+        </div>
+    </footer>
+
+    <script src="js/products.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const productContent = document.getElementById('product-content');
+
+            if (!productId) {
+                productContent.innerHTML = '<div class="empty-state"><h3>Product Not Found</h3><a href="index.html" class="btn-primary">Go Home</a></div>';
+                return;
+            }
+
+            const product = window.thrftData.getProductById(productId);
+            if (!product) {
+                productContent.innerHTML = '<div class="empty-state"><h3>Item Not Found</h3><p>This thrift item might have been sold or removed.</p><a href="index.html" class="btn-primary">Go Home</a></div>';
+                return;
+            }
+
+            document.title = `${product.name} | ThrftCity`;
+
+            // State
+            const inWishlist = isInWishlist(product.id);
+
+            // Render details (Thrift Version)
+            const renderDetails = () => {
+                const cart = getCart();
+                const inCart = cart.includes(product.id);
+
+                let galleryHTML = '';
+                if (product.images && product.images.length > 1) {
+                    let thumbs = product.images.map(img => `<img src="${img}" class="thumbnail-img" style="width: 80px; height: 100px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s;" onclick="document.getElementById('main-product-image').src='${img}'" onmouseover="this.style.borderColor='var(--accent-color)'" onmouseout="this.style.borderColor='transparent'">`).join('');
+                    galleryHTML = `<div class="product-thumbnails" style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">${thumbs}</div>`;
+                }
+
+                productContent.innerHTML = `
+                    <div class="product-detail-container fade-in">
+                        <div>
+                            <div class="main-img-wrap">
+                                <div class="detail-badge-top">Only 1 in Stock</div>
+                                <img id="main-product-image" src="${product.image}" alt="${product.name}" class="main-img">
+                            </div>
+                            ${galleryHTML}
+                        </div>
+                        <div style="display:flex; flex-direction:column;">
+                            <div style="color: #aaa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; font-size: 0.9rem;">
+                                ${product.gender} / ${product.category}
+                            </div>
+                            <h1 style="font-size: 2.5rem; line-height: 1.1; margin-bottom: 15px;">${product.name}</h1>
+                            <div style="font-size: 2rem; color: var(--accent-color); font-weight: 700; margin-bottom: 10px;">₹${product.price}</div>
+                            
+                            <div class="info-pill-container">
+                                <div class="info-pill"><span>Available Size:</span> ${product.availableSize}</div>
+                                <div class="info-pill"><span>Condition:</span> ${product.condition}</div>
+                            </div>
+
+                            <p style="color: #ccc; font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+                                ${product.description}
+                                <br><br>
+                                <em style="font-size:0.9rem; color:#888;">*All items are secondhand / vintage and may show minor signs of wear. Wash before use.</em>
+                            </p>
+
+                            <div class="action-buttons">
+                                <button id="btn-add-cart" class="btn-secondary" style="padding: 15px; font-size: 1.1rem; ${inCart ? 'opacity:0.6; cursor:not-allowed;' : ''}" ${inCart ? 'disabled' : ''}>
+                                    <i class="fas fa-shopping-cart"></i> ${inCart ? 'Already in Cart' : 'Add to Cart'}
+                                </button>
+                                <button id="btn-buy-now" class="btn-primary" style="padding: 15px; font-size: 1.1rem; ${inCart ? 'opacity:0.6; cursor:not-allowed;' : ''}" ${inCart ? 'disabled' : ''}>
+                                    Buy Now
+                                </button>
+                                <button id="btn-wishlist-toggle" class="btn-secondary" style="grid-column: 1/-1; padding: 15px;">
+                                    <i class="${inWishlist ? 'fas' : 'far'} fa-heart"></i> ${inWishlist ? 'Remove from Wishlist' : 'Save to Wishlist'}
+                                </button>
+                            </div>
+                            
+                            <div style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.9rem; color: #aaa;">
+                                <p><i class="fas fa-truck"></i> Free shipping on orders over ₹2000</p>
+                                <p><i class="fas fa-box-open"></i> Shipped in eco-friendly packaging</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Attach event listeners ONLY IF not already in cart
+                const addBtn = document.getElementById('btn-add-cart');
+                const buyBtn = document.getElementById('btn-buy-now');
+
+                if (addBtn && !inCart) {
+                    addBtn.addEventListener('click', () => {
+                        addToCart(product.id);
+                        renderDetails(); // re-render to gray out btn
+                    });
+                }
+
+                if (buyBtn && !inCart) {
+                    buyBtn.addEventListener('click', () => {
+                        addToCart(product.id);
+                        window.location.href = 'cart.html';
+                    });
+                }
+
+                document.getElementById('btn-wishlist-toggle').addEventListener('click', () => {
+                    toggleWishlist(product.id);
+                    renderDetails(); // update button text/icon
+                });
+            };
+
+            renderDetails();
+
+            // Render Similar products (Exclude current)
+            const similarGrid = document.getElementById('similar-products');
+            const similarProducts = window.thrftData.products
+                .filter(p => p.id !== product.id && (p.category === product.category || p.gender === product.gender))
+                .sort(() => 0.5 - Math.random()) // shuffle
+                .slice(0, 4);
+
+            if (similarProducts.length > 0) {
+                similarGrid.innerHTML = similarProducts.map(p => createProductCardHTML(p)).join('');
+            } else {
+                similarGrid.innerHTML = '<p>No similar items found right now.</p>';
+            }
+        });
+    </script>
+</body>
+
+</html>
